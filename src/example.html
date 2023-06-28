@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather App</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <h1>Weather App</h1>
+    <div class="input-container">
+      <input id="city-input" type="text" placeholder="Enter city">
+      <button id="search-button">Search</button>
+    </div>
+    <div id="weather-info"></div>
+  </div>
+
+  <script>
+      $(document).ready(function() {
+  $('#search-button').on('click', function() {
+    var city = $('#city-input').val();
+    if (city !== "") {
+      getWeather(city);
+    }
+  });
+});
+
+function getWeather(city) {
+  var apiKey = 'your_api_key';
+  var apiUrl = 'https://api.weatherapi.com/v1/current.json?key=' + apiKey + '&q=' + city;
+
+  $.ajax({
+    url: apiUrl,
+    method: 'GET',
+    success: function(response) {
+      var weatherInfo = '<div class="weather-card">' +
+        '<h2>' + response.location.name + '</h2>' +
+        '<p>Temperature: ' + response.current.temp_c + '°C</p>' +
+        '<p>Condition: ' + response.current.condition.text + '</p>' +
+        '</div>';
+
+      $('#weather-info').html(weatherInfo);
+    },
+    error: function(error) {
+      console.log(error);
+    }
+  });
+}
+
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
